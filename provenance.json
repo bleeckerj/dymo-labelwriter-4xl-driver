@@ -41,6 +41,10 @@
     "vendor_files_modified": false,
     "filter_execution": "Expected usage output; exit 1 with no job arguments",
     "vendor_arm64_signature_check": "Invalid signature reported by codesign --verify --strict",
-    "physical_printing": "Pending installation and verification"
+    "installation": "macOS Installer reported successful installation on 2026-10-13",
+    "manual_ppd_selection": "Accepted as DYMO LabelWriter 4XL in Add Printer",
+    "printer_registration": "Blocked by macOS print scheduler: Bad file descriptor; listener socket check-in error 159",
+    "scheduler_restart": "Attempted by the root postinstall script; service remained unavailable",
+    "physical_printing": "Pending macOS print service recovery and verification"
   }
 }

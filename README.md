@@ -10,6 +10,10 @@ Download the `.pkg` from this repository's Releases page, open it, and complete 
 
 If the printer is unplugged or the print scheduler is unavailable, the driver files are still installed. Connect the printer and use System Settings → Printers & Scanners → Add Printer. Select the 4XL and choose **Use → Select Software → DYMO LabelWriter 4XL**.
 
+If the software list is empty, choose **Use → Other…**. In the file chooser, press Command-Shift-G and enter `/Library/Printers/PPDs/Contents/Resources/lw4xl.ppd.gz`. Open that file, confirm that **Use** reads **DYMO LabelWriter 4XL**, and click **Add**.
+
+The development Mac completed the driver installation successfully. Manual selection of the installed printer definition was accepted. Adding the printer then failed with **Bad file descriptor** because the macOS print scheduler could not open its listener socket. The installer's scheduler restart did not resolve that service failure. Restart the Mac if this occurs; physical printing remains unverified.
+
 Existing DYMO applications and other printer queues are preserved. This installer does not install DYMO Connect, its web service, its support application, or a DYMO background daemon.
 
 ## Build
