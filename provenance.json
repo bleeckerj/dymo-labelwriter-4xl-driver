@@ -1,0 +1,46 @@
+{
+  "schema_version": 1,
+  "created_at": "2026-10-13T22:03:18.122184+00:00",
+  "model": "DYMO LabelWriter 4XL",
+  "source": {
+    "name": "DCDMac1.6.3.9-Arm64.pkg",
+    "version": "1.6.3.9",
+    "url": "https://dymoreleasecontent.blob.core.windows.net/dymo-release/DCDMAC/DCDMac1.6.3.9-Arm64.pkg",
+    "bytes": 267989806,
+    "sha256": "4ebb5c93a4e0aa80f2108f6dd3e10687472edcc9cda8acc47772e97a78197158",
+    "content_md5_base64": "thy6MqjTQlXzFg5zAeF0SA==",
+    "official_download_md5_matches": true
+  },
+  "files": [
+    {
+      "path": "driver/Library/Printers/DYMO/Filters/raster2dymolw",
+      "bytes": 281296,
+      "sha256": "6e1c482a6ddafe5b6c22bad25f87190f60db75812ae58bb8900afef8759728d5",
+      "mode": "0o755"
+    },
+    {
+      "path": "driver/Library/Printers/DYMO/Icons/LW4XL.icns",
+      "bytes": 53431,
+      "sha256": "20c97ae7111c066fbaf07dc476c06498382cca03131df0b90fa9d19f7da22346",
+      "mode": "0o644"
+    },
+    {
+      "path": "driver/Library/Printers/PPDs/Contents/Resources/lw4xl.ppd.gz",
+      "bytes": 7834,
+      "sha256": "d4ddb47de9ed6950a2c524c3c7235832dba02fc81345808120f94e279935b12f",
+      "mode": "0o644"
+    }
+  ],
+  "verification": {
+    "development_macos": "27.0.1",
+    "filter_architectures": [
+      "x86_64",
+      "arm64"
+    ],
+    "filter_dependencies": "macOS system libraries only",
+    "vendor_files_modified": false,
+    "filter_execution": "Expected usage output; exit 1 with no job arguments",
+    "vendor_arm64_signature_check": "Invalid signature reported by codesign --verify --strict",
+    "physical_printing": "Pending installation and verification"
+  }
+}

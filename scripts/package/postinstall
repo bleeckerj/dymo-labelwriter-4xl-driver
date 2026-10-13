@@ -1,0 +1,66 @@
+#!/bin/bash
+set -euo pipefail
+
+log() { printf '[DYMO 4XL] %s\n' "$*"; }
+ppd=/Library/Printers/PPDs/Contents/Resources/lw4xl.ppd.gz
+filter=/Library/Printers/DYMO/Filters/raster2dymolw
+icon=/Library/Printers/DYMO/Icons/LW4XL.icns
+queue=DYMO_LabelWriter_4XL
+
+if [ "${1:-}" = --dry-run ]; then
+  log 'Install the 4XL filter, printer definition, and icon with root ownership.'
+  log 'Restart the standard macOS print scheduler if necessary.'
+  log 'Register a connected USB LabelWriter 4XL with 1744907 shipping-label settings.'
+  exit 0
+fi
+
+/usr/sbin/chown root:wheel "$filter" "$ppd" "$icon"
+/bin/chmod 0755 "$filter"
+/bin/chmod 0644 "$ppd" "$icon"
+log 'The three driver files are installed.'
+
+if ! /usr/bin/lpstat -r 2>/dev/null | /usr/bin/grep -q 'scheduler is running'; then
+  log 'Restarting the macOS print scheduler.'
+  /bin/launchctl kickstart -k system/org.cups.cupsd || true
+fi
+
+scheduler_ready=false
+for attempt in 1 2 3 4 5; do
+  if /usr/bin/lpstat -r 2>/dev/null | /usr/bin/grep -q 'scheduler is running'; then
+    scheduler_ready=true
+    break
+  fi
+  /bin/sleep 1
+done
+if [ "$scheduler_ready" = false ]; then
+  log 'The driver is installed, but the macOS print scheduler is unavailable.'
+  log 'Restart the Mac, then add the printer in Printers & Scanners.'
+  exit 0
+fi
+
+device_uri=''
+while read -r device_type candidate rest; do
+  case "$candidate" in
+    usb://DYMO/LabelWriter%204XL*|usb://DYMO/LabelWriter%204XL/*)
+      device_uri="$candidate"
+      break
+      ;;
+  esac
+done < <(/usr/sbin/lpinfo -v 2>/dev/null)
+
+if [ -z "$device_uri" ]; then
+  log 'Connect the USB printer and add DYMO LabelWriter 4XL in Printers & Scanners.'
+  exit 0
+fi
+if /usr/bin/lpstat -p "$queue" >/dev/null 2>&1; then
+  log 'The named printer queue already exists; its settings were preserved.'
+  exit 0
+fi
+
+if /usr/sbin/lpadmin -p "$queue" -E -v "$device_uri" -P "$ppd" \
+  -o printer-is-shared=false -o PageSize=w296h452; then
+  log 'The USB LabelWriter 4XL queue is ready for 1744907 shipping labels.'
+else
+  log 'The driver is installed. Add the printer through Printers & Scanners.'
+fi
+exit 0
